@@ -34,7 +34,7 @@
     (should (string-equal (alist-get 'a regexp-alist nil nil #'outline-occur--key-match-p)
 			  "regexp-a"))
     (should (string-equal (alist-get 'b regexp-alist nil nil #'outline-occur--key-match-p)
-			  "regexp-b-c"))		
+			  "regexp-b-c"))
     (should (string-equal (alist-get 'c regexp-alist nil nil #'outline-occur--key-match-p)
 			  "regexp-b-c"))
     (should (string-equal (alist-get 'abcdefg regexp-alist nil nil #'outline-occur--key-match-p)
