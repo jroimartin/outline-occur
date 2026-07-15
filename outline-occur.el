@@ -23,8 +23,10 @@
 ;;; Commentary:
 
 ;; Run the `outline-occur' command to navigate the current buffer's
-;; outline using `occur'.  The variables `outline-occur-regexp-alist'
-;; and `outline-regexp' determine how to find the outline headings.
+;; outline using `occur'.  The `outline-regexp' variable is used to
+;; find the beginning of the outline headings.  The
+;; `outline-occur-regexp-override-alist' variable allows overriding
+;; this regexp per major mode.
 
 ;;; Code:
 
@@ -34,12 +36,15 @@
   "Buffer outline navigation based on `occur'."
   :group 'matching)
 
-(defcustom outline-occur-regexp-alist nil
-  "Alist of regexps matching outline headings for major modes.
+(defcustom outline-occur-regexp-override-alist nil
+  "Alist that overrides `outline-regexp' for specific major modes.
 Each element has the form (MAJOR-MODE . REGEXP).  MAJOR-MODE is a
-symbol, a list of symbols or a regular expression that matches the major
-mode name.  REGEXP is a regular expression that matches the outline
-headings in that major mode."
+symbol, a list of symbols or a regexp that matches the major mode name.
+REGEXP is a regexp that matches the beginning of the outline headings in
+that major mode.  Any line whose beginning matches this regexp is
+considered to start a heading.  As Outline mode does with
+`outline-regexp', `outline-occur' only checks this regexp at the start
+of a line, so the regexp need not (and usually does not) start with `^'."
   :type '(alist :tag "Outline heading regexps"
 		:key-type (choice :tag "Major mode"
 				  (symbol :tag "Name")
@@ -50,7 +55,7 @@ headings in that major mode."
 (defun outline-occur--key-match-p (alist-key key)
   "Return non-nil if KEY matches ALIST-KEY.
 This function is used as a custom TESTFN to look up keys in
-`outline-occur-regexp-alist'."
+`outline-occur-regexp-override-alist'."
   (cond
    ((listp alist-key) (memq key alist-key))
    ((stringp alist-key) (string-match-p alist-key (symbol-name key)))
@@ -59,17 +64,16 @@ This function is used as a custom TESTFN to look up keys in
 ;;;###autoload
 (defun outline-occur ()
   "Navigate the current buffer's outline using `occur'.
-The regular expression passed to `occur' depends on the current buffer's
-major mode, as configured in the `outline-occur-regexp-alist' variable.
-If the current major mode has no entry in that alist, this function
-falls back to `outline-regexp' to find the start of headings."
+The `outline-regexp' variable is used to find the beginning of the
+outline headings.  The `outline-occur-regexp-override-alist' variable
+allows overriding this regexp per major mode."
   (interactive)
-  (if-let* ((regexps (or (alist-get major-mode outline-occur-regexp-alist
-				    nil nil #'outline-occur--key-match-p)
-			 (and outline-regexp (concat "^\\(?:" outline-regexp "\\)")))))
+  (if-let* ((regexp (or (alist-get major-mode outline-occur-regexp-override-alist
+				   nil nil #'outline-occur--key-match-p)
+			outline-regexp)))
       (let ((occur-hook (lambda () (pop-to-buffer "*Occur*"))))
-	(occur regexps))
-    (user-error "Unsupported major mode")))
+	(occur (concat "^\\(?:" regexp "\\)")))
+    (user-error "No outline regexp defined")))
 
 (provide 'outline-occur)
 
