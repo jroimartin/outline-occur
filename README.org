@@ -3,5 +3,6 @@
 Navigate the buffer's outline using ~occur~.
 
 Run the ~outline-occur~ command to navigate the current buffer's
-outline using ~occur~.  The variables ~outline-occur-regexp-alist~ and
-~outline-regexp~ determine how to find the outline headings.
+outline using ~occur~.  The variables ~outline-regexp~ and
+~outline-occur-regexp-override-alist~ determine how to find the
+outline headings.
