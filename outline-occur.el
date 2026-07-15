@@ -3,6 +3,9 @@
 ;; Copyright (C) 2026 Roi Martin
 
 ;; Author: Roi Martin <jroi.martin@gmail.com>
+;; Version: 1.0.50
+;; Keywords: matching, outlines
+;; URL: https://github.com/jroimartin/outline-occur
 
 ;; This program is free software: you can redistribute it and/or modify
 ;; it under the terms of the GNU General Public License as published by
