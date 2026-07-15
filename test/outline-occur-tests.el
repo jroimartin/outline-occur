@@ -24,6 +24,7 @@
 ;;; Code:
 
 (require 'ert)
+(require 'ert-x)
 (require 'outline-occur)
 
 (ert-deftest outline-occur-tests--outline-occur--key-match-p ()
@@ -43,6 +44,45 @@
 			  "regexp-d"))
     (should-not (alist-get 'e regexp-alist nil nil #'outline-occur--key-match-p))))
 
+(ert-deftest outline-occur-tests--outline-occur ()
+  "Test the `outline-occur' function with `outline-regexp'."
+  (let ((test-file (ert-resource-file "outline.txt")))
+    (with-temp-buffer
+      (fundamental-mode)
+      (insert-file-contents test-file)
+      (setq-local outline-regexp "\\*"
+		  outline-occur-regexp-override-alist nil)
+      (outline-occur))
+    (with-current-buffer (get-buffer "*Occur*")
+      (point-min)
+      (should (search-forward "* Star heading"))
+      (point-min)
+      (should-error (search-forward "- Dash heading")))))
+
+(ert-deftest outline-occur-tests--outline-occur-override ()
+  "Test the `outline-occur' function with `outline-occur-regexp-override-alist'."
+  (let ((test-file (ert-resource-file "outline.txt")))
+    (with-temp-buffer
+      (fundamental-mode)
+      (insert-file-contents test-file)
+      (setq-local outline-regexp "\\*"
+		  outline-occur-regexp-override-alist '((fundamental-mode . "-")))
+      (outline-occur))
+    (with-current-buffer (get-buffer "*Occur*")
+      (point-min)
+      (should-error (search-forward "* Star heading"))
+      (point-min)
+      (should (search-forward "- Dash heading")))))
+
+(ert-deftest outline-occur-tests--outline-occur-undefined-regexp ()
+  "Test the `outline-occur' function with undefined regexp."
+  (let ((test-file (ert-resource-file "outline.txt")))
+    (with-temp-buffer
+      (fundamental-mode)
+      (insert-file-contents test-file)
+      (setq-local outline-regexp nil
+		  outline-occur-regexp-override-alist nil)
+      (should-error (outline-occur)))))
 
 (provide 'outline-occur-tests)
 
