@@ -54,9 +54,9 @@
 		  outline-occur-regexp-override-alist nil)
       (outline-occur))
     (with-current-buffer (get-buffer "*Occur*")
-      (point-min)
+      (goto-char (point-min))
       (should (search-forward "* Star heading"))
-      (point-min)
+      (goto-char (point-min))
       (should-error (search-forward "- Dash heading")))))
 
 (ert-deftest outline-occur-tests--outline-occur-override ()
@@ -69,9 +69,9 @@
 		  outline-occur-regexp-override-alist '((fundamental-mode . "-")))
       (outline-occur))
     (with-current-buffer (get-buffer "*Occur*")
-      (point-min)
+      (goto-char (point-min))
       (should-error (search-forward "* Star heading"))
-      (point-min)
+      (goto-char (point-min))
       (should (search-forward "- Dash heading")))))
 
 (ert-deftest outline-occur-tests--outline-occur-undefined-regexp ()
