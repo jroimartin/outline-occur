@@ -4,6 +4,7 @@
 
 ;; Author: Roi Martin <jroi.martin@gmail.com>
 ;; Version: 1.0.50
+;; Package-Requires: ((emacs "26.1"))
 ;; Keywords: matching, outlines
 ;; URL: https://github.com/jroimartin/outline-occur
 
