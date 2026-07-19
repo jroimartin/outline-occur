@@ -14,8 +14,8 @@ Navigate the current buffer's outline using Occur.
 
 * Installation
 
-I have sent the package to the emacs-devel mailing list for review.  I
-proposed two alternatives:
+The package has been submitted to the emacs-devel mailing list for
+review.  Two alternatives were proposed:
 
 1. Outline-occur is a very small package that only depends on built-in
    functionalities---Outline and Occur---so, if the GNU Emacs
@@ -35,7 +35,7 @@ M-x package-vc-install<RET>https://github.com/jroimartin/outline-occur.git<RET>
 
 * Configuration
 
-Outline-occur depends on two variables to indentify the outline
+Outline-occur depends on two variables to identify the outline
 headings in a buffer:
 
 - ~outline-regexp~ :: Regular expression to match the beginning of a
@@ -63,12 +63,12 @@ modes already set the ~outline-regexp~ variable.
 
 * Usage
 
-Outline-occur has a single entrypoint:
+Outline-occur has a single entry point:
 
 - ~outline-occur~ :: Navigate the current buffer's outline using
   Occur.
 
-I recommend you to bind this command to =M-s M-o=.  For instance,
+Consider binding this command to =M-s M-o=.  For instance,
 
 #+begin_src emacs-lisp
   (keymap-global-set "M-s M-o" #'outline-occur)
