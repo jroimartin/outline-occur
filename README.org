@@ -4,7 +4,7 @@
 #+language: en
 #+options: ':t toc:t num:t author:t email:t
 
-* ⚠️ DEPRECATED: Moved to GNU Emacs Core
+*⚠️ DEPRECATED: Moved to GNU Emacs Core*
 
 Outline-occur is now part of GNU Emacs core.  Therefore, this
 repository has been archived and is now read-only.
